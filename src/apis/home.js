@@ -1,9 +1,15 @@
 import httpInstance from "@/utils/http"
 
-export function getBannerAPI(){
-    return httpInstance({
-        url:'/home/banner'
-    })
+export function getBannerAPI(params = {}) {
+  //默认为1 商品为2
+  const { distributionSite = '1' } = params
+  return httpInstance({
+    url: '/home/banner',
+    //参数
+    params: {
+      distributionSite
+    }
+  })
 }
 
 /**
@@ -12,18 +18,30 @@ export function getBannerAPI(){
  * @return {*}
  */
 export const findNewAPI = () => {
-    return httpInstance({
-      url:'/home/new'
-    })
-  }
+  return httpInstance({
+    url: '/home/new'
+  })
+}
 
-  /**
- * @description: 获取人气推荐
+/**
+* @description: 获取人气推荐
+* @param {*}
+* @return {*}
+*/
+export const getHotAPI = () => {
+  return httpInstance({
+    url: 'home/hot'
+  })
+}
+
+
+/**
+ * @description: 获取所有商品模块
  * @param {*}
  * @return {*}
  */
-export const getHotAPI = () => {
-    return  httpInstance({
-        url:'home/hot'
-    })
-  }
+export const getGoodsAPI = () => {
+  return httpInstance({
+    url: '/home/goods'
+  })
+}

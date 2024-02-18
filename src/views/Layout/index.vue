@@ -16,6 +16,8 @@ onMounted(() => categoryStore.getCategory())
     <LayoutFixed />
     <LayoutNav />
     <LayoutHeader />
+    <!-- 解决路由缓存方法:添加key 破坏复用机制 强制销毁重建，缺点是存在内存浪费 -->
+    <!-- <RouterView :key="$route.fullPath" /> -->
     <RouterView />
     <LayoutFooter />
 </template>

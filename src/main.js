@@ -1,13 +1,17 @@
 //引入初始化样式文件
 import '@/styles/common.scss'
-import { useIntersectionObserver } from '@vueuse/core'
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import App from './App.vue'
 import router from './router'
 
+//引入懒加载插件并注册
+import {lazyPlugin} from '@/directives/index'
+
+//引入全局组件插件
+import {componentPlugin} from '@/components'
 //测试接口函数
 // import { getCategory } from './apis/testAPI'
 // getCategory().then(res => {
@@ -16,31 +20,13 @@ import router from './router'
 
 
 const app = createApp(App)
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
 
-
-
-app.use(createPinia())
+app.use(pinia)
 app.use(router)
-
+app.use(lazyPlugin)
+app.use(componentPlugin)
 app.mount('#app')
 
-//定义全局指令
-    //懒加载
-app.directive('img-lazy', {
-    mounted(el, binding) {
-        //el:指令指定的那个元素 img
-        //binding：binding.value 指令对于号后面绑定的表达式的值 图片URL
-        // console.log(el,binding.value);
-        const { stop } = useIntersectionObserver(
-            el,
-            ([{ isIntersecting }]) => {
-                console.log(isIntersecting)
-                if (isIntersecting) {
-                    // 进入视口区域
-                    el.src = binding.value
-                    stop()
-                }
-            },
-        )
-    }
-})
+
